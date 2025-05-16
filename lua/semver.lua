@@ -12,7 +12,7 @@ local M = {}
 ---@field patch integer
 
 --- Searches the current line for a semantic version string
---- Returns the version string's start and end position and the three version values
+--- Returns the start and end indices of the version string and the three version values
 ---@overload fun(): position?, version?
 local function parse_version()
 	local line = vim.api.nvim_get_current_line()
@@ -28,7 +28,7 @@ local function parse_version()
 	return pos, version
 end
 
---- Overwrites the current semantic version in the line with the new one
+--- Overwrites the current semantic version in the current line with the new version
 ---@param pos position
 ---@param ver version
 local function write_new_version(pos, ver)
@@ -38,33 +38,35 @@ local function write_new_version(pos, ver)
 	vim.api.nvim_set_current_line(new_line)
 end
 
-M.major = function()
-	local inc = vim.v.count1
-	local pos, ver = parse_version()
-	if pos == nil or ver == nil then
-		return
-	end
-	ver.major, ver.minor, ver.patch = ver.major + inc, 0, 0
-	write_new_version(pos, ver)
-end
+---@type table<string, function>
+local incrementer = {
+	---@overload fun(ver: version, inc: integer): version
+	major = function(ver, inc)
+		ver.major, ver.minor, ver.patch = ver.major + inc, 0, 0
+		return ver
+	end,
 
-M.minor = function()
-	local inc = vim.v.count1
-	local pos, ver = parse_version()
-	if pos == nil or ver == nil then
-		return
-	end
-	ver.minor, ver.patch = ver.minor + inc, 0
-	write_new_version(pos, ver)
-end
+	---@overload fun(ver: version, inc: integer): version
+	minor = function(ver, inc)
+		ver.minor, ver.patch = ver.minor + inc, 0
+		return ver
+	end,
 
-M.patch = function()
+	---@overload fun(ver: version, inc: integer): version
+	patch = function(ver, inc)
+		ver.patch = ver.patch + inc
+		return ver
+	end,
+}
+
+---@param type string
+M.increment_semantic_version = function(type)
 	local inc = vim.v.count1
 	local pos, ver = parse_version()
 	if pos == nil or ver == nil then
 		return
 	end
-	ver.patch = ver.patch + inc
+	ver = incrementer[type](ver, inc)
 	write_new_version(pos, ver)
 end
 

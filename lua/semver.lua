@@ -1,6 +1,6 @@
 local M = {}
 
--- Functions for quickly incrementing a semantic version
+-- Function for quickly incrementing a semantic version
 
 ---@class position
 ---@field begins integer
@@ -19,7 +19,7 @@ local function parse_version()
 	local begins, ends, major, minor, patch = line:find("(%d+)%.(%d+)%.(%d+)", 1)
 
 	if begins == nil then
-		print("No semantic version found on this line")
+		vim.notify("No semantic version found on this line", vim.log.levels.ERROR)
 		return nil, nil
 	end
 

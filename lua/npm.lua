@@ -5,7 +5,7 @@ local function get_current_path()
 	local file_name = vim.fn.expand("%:t")
 	local file_path = vim.fn.expand("%:p:h")
 	if file_name ~= "package.json" then
-		print("Not inside a package.json file")
+		vim.notify("Must be inside a package.json file", vim.log.levels.ERROR)
 		return nil
 	end
 	return file_path

@@ -39,7 +39,7 @@ local function write_new_version(pos, ver)
 end
 
 ---@type table<string, function>
-local incrementer = {
+local incrementers = {
 	---@overload fun(ver: version, inc: integer): version
 	major = function(ver, inc)
 		ver.major, ver.minor, ver.patch = ver.major + inc, 0, 0
@@ -59,14 +59,28 @@ local incrementer = {
 	end,
 }
 
+--- Select the incrementer based on type, defaults to patch if type is invalid
 ---@param type string
+---@return function
+local function get_incrementer(type)
+	local inc = incrementers[type]
+	if inc == nil then
+		inc = incrementers.patch
+	end
+	return inc
+end
+
+--- Increment the semantic version based on the type (major, minor, patch)
+---@param type string?
 M.increment_semantic_version = function(type)
+	type = type or "patch"
 	local inc = vim.v.count1
 	local pos, ver = parse_version()
 	if pos == nil or ver == nil then
 		return
 	end
-	ver = incrementer[type](ver, inc)
+	local incrementer = get_incrementer(type)
+	ver = incrementer(ver, inc)
 	write_new_version(pos, ver)
 end
 

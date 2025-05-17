@@ -1,14 +1,6 @@
-vim.api.nvim_create_user_command("TBSemverMajor", function()
-	require("semver").increment_semantic_version("major")
-end, {})
-
-vim.api.nvim_create_user_command("TBSemverMinor", function()
-	require("semver").increment_semantic_version("minor")
-end, {})
-
-vim.api.nvim_create_user_command("TBSemverPatch", function()
-	require("semver").increment_semantic_version("patch")
-end, {})
+vim.api.nvim_create_user_command("TBIncSemver", function(args)
+	require("semver").increment_semantic_version(args.fargs[1])
+end, { nargs = "?" })
 
 vim.api.nvim_create_user_command("TBNpmInstall", function()
 	require("npm").npm_i()

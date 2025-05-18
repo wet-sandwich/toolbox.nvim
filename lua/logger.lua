@@ -18,7 +18,7 @@ local function get_print_cmd(level)
 
 	cmd = cmd[level]
 	if cmd == nil then
-		local msg = string.format("No print statement found for filetype %s with level %s", ft, level)
+		local msg = string.format("No print statement found for filetype %s with log level %s", ft, level)
 		vim.notify(msg, vim.log.levels.ERROR)
 		return nil
 	end

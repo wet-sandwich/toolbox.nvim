@@ -1,3 +1,5 @@
+require("toolbox").setup()
+
 vim.api.nvim_create_user_command("TBIncSemver", function(args)
 	require("semver").increment_semantic_version(args.args)
 end, { nargs = "?" })

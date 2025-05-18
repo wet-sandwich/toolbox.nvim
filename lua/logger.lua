@@ -1,16 +1,6 @@
-local M = {}
+local config = require("toolbox").config.logger
 
----@type table<string, string|table>
-local print_statements = {
-	js = {
-		debug = "console.debug",
-		info = "console.log",
-		warn = "console.warn",
-		error = "console.error",
-	},
-	lua = "print",
-	py = "print",
-}
+local M = {}
 
 --- Get the print statement based on the filetype and log level
 --- @param level string
@@ -21,7 +11,7 @@ local function get_print_cmd(level)
 		ft = "js"
 	end
 
-	local cmd = print_statements[ft]
+	local cmd = config.print_statements[ft]
 	if cmd == nil then
 		local msg = string.format("No print statement found for filetype %s", ft)
 		vim.notify(msg, vim.log.levels.ERROR)
@@ -44,7 +34,6 @@ end
 
 --- TODO: see if treesitter can be used to confirm if the current word is a variable
 --- TODO: add support for objects
---- TODO: add support to set a message prefix for easily identifiable logs
 --- Inserts a print statement line to log the variable under the cursor
 ---@param level string?
 M.log_variable = function(level)
@@ -57,7 +46,7 @@ M.log_variable = function(level)
 	end
 
 	local row = vim.api.nvim_win_get_cursor(0)[1]
-	local new_line = string.format('%s("%s:", %s)', print_cmd, var, var)
+	local new_line = string.format('%s("%s%s:", %s)', print_cmd, config.prefix, var, var)
 	vim.api.nvim_buf_set_lines(0, row, row, false, { new_line })
 	vim.api.nvim_feedkeys("=j", "n", false)
 end

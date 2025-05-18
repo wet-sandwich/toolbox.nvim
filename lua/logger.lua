@@ -44,7 +44,7 @@ M.log_variable = function(level)
 	end
 
 	local row = vim.api.nvim_win_get_cursor(0)[1]
-	local new_line = string.format('%s("%s%s:", %s)', print_cmd, config.prefix, var, var)
+	local new_line = string.gsub(print_cmd, "%%s", var)
 	vim.api.nvim_buf_set_lines(0, row, row, false, { new_line })
 	vim.api.nvim_feedkeys("=j", "n", false)
 end

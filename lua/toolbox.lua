@@ -10,12 +10,12 @@ local defaults = {
 		},
 		print_statements = {
 			js = {
-				debug = "console.debug",
-				info = "console.log",
-				warn = "console.warn",
-				error = "console.error",
+				debug = 'console.debug("%s:", %s)',
+				info = 'console.log("%s:", %s)',
+				warn = 'console.warn("Warning! %s:", %s)',
+				error = 'console.error("Error! %s:", %s)',
 			},
-			lua = "print",
+			lua = 'print("%s:", %s)',
 		},
 	},
 }

@@ -3,6 +3,11 @@ local M = {}
 local defaults = {
 	logger = {
 		prefix = "",
+		language_map = {
+			jsx = "js",
+			ts = "js",
+			tsx = "js",
+		},
 		print_statements = {
 			js = {
 				debug = "console.debug",
@@ -17,6 +22,7 @@ local defaults = {
 
 ---@class Toolbox.LoggerOpts
 ---@field prefix string: The text to prefix the log message (to quickly identify your logs)
+---@field language_map table<string, string>: Map filetypes to a language (useful for filetypes that differ from the standard language)
 ---@field print_statements string|table<string, string>: The print statements for different filetypes
 
 ---@class Toolbox.Options
@@ -26,6 +32,7 @@ local defaults = {
 M.config = {
 	logger = {
 		prefix = "",
+		language_map = {},
 		print_statements = {},
 	},
 }

@@ -7,9 +7,7 @@ local M = {}
 ---@return string?
 local function get_print_cmd(level)
 	local ft = vim.fn.expand("%:e")
-	if ft == "jsx" or ft == "ts" or ft == "tsx" then
-		ft = "js"
-	end
+	ft = config.language_map[ft] or ft
 
 	local cmd = config.print_statements[ft]
 	if cmd == nil then
@@ -35,9 +33,9 @@ end
 --- TODO: see if treesitter can be used to confirm if the current word is a variable
 --- TODO: add support for objects
 --- Inserts a print statement line to log the variable under the cursor
----@param level string?
+---@param level string
 M.log_variable = function(level)
-	level = level or "info"
+	level = level == "" and "info" or level
 	local var = vim.fn.expand("<cword>")
 	local print_cmd = get_print_cmd(level)
 

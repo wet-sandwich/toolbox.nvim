@@ -15,7 +15,7 @@
     - runs the command from the current file's directory
     - has a `package` mode that will prompt the user for a space-separated list of packages
 - Multi-Language Variable Logger
-    - quickly add a log/print statement of the current word under the cursor below the current line
+    - quickly add a log/print statement below the current line for the selected text or the current word under the cursor
     - configurable for different languages based on file type
         - can configure a mapping to point different file types to the desired language (e.g jsx -> js)
     - supports configuring print statements of different log levels within a language [debug|info|warn|error]
@@ -69,8 +69,8 @@ vim.keymap.set("n", "<C-M-p>", "<cmd>TBIncSemver patch<cr>", { desc = "Increment
 vim.keymap.set("n", "<leader>ni", "<cmd>TBNpmInstall all<cr>", { desc = "Run [N]pm [I]nstall" })
 vim.keymap.set("n", "<leader>np", "<cmd>TBNpmInstall package<cr>", { desc = "Run [N]pm install [P]ackage" })
 
-vim.keymap.set("n", "<leader>li", "<cmd>TBLogVariable info<cr>", { desc = "[L]og variable [I]nfo" })
-vim.keymap.set("n", "<leader>ld", "<cmd>TBLogVariable debug<cr>", { desc = "[L]og variable [D]ebug" })
-vim.keymap.set("n", "<leader>lw", "<cmd>TBLogVariable warn<cr>", { desc = "[L]og variable [W]arn" })
-vim.keymap.set("n", "<leader>le", "<cmd>TBLogVariable error<cr>", { desc = "[L]og variable [E]rror" })
+vim.keymap.set({"n", "v"}, "<leader>li", "<cmd>TBLogVariable info<cr>", { desc = "[L]og variable [I]nfo" })
+vim.keymap.set({"n", "v"}, "<leader>ld", "<cmd>TBLogVariable debug<cr>", { desc = "[L]og variable [D]ebug" })
+vim.keymap.set({"n", "v"}, "<leader>lw", "<cmd>TBLogVariable warn<cr>", { desc = "[L]og variable [W]arn" })
+vim.keymap.set({"n", "v"}, "<leader>le", "<cmd>TBLogVariable error<cr>", { desc = "[L]og variable [E]rror" })
 ```

@@ -26,13 +26,27 @@ local function get_print_cmd(level)
 	return cmd
 end
 
---- TODO: see if treesitter can be used to confirm if the current word is a variable
---- TODO: add support for objects
+local function get_word_or_selection()
+	local mode = vim.fn.mode()
+	if mode == "v" then
+		local _, row1, col1, _ = unpack(vim.fn.getpos("."))
+		local _, row2, col2, _ = unpack(vim.fn.getpos("v"))
+		assert(row1 == row2, "Selection must be on a single line")
+		if col2 < col1 then
+			col1, col2 = col2, col1
+		end
+		local line = vim.fn.getline(row1)
+		local selection = string.sub(line, col1, col2)
+		return selection
+	end
+	return vim.fn.expand("<cword>")
+end
+
 --- Inserts a print statement line to log the variable under the cursor
 ---@param level string
 M.log_variable = function(level)
 	level = level == "" and "info" or level
-	local var = vim.fn.expand("<cword>")
+	local var = get_word_or_selection()
 	local print_cmd = get_print_cmd(level)
 
 	if print_cmd == nil then

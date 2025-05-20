@@ -9,7 +9,7 @@
 - Semantic Version Incrementer
     - searches the current line for a semantic version and quickly increases the major, minor, or patch version
     - automatically resets the lower versions as needed
-    - accepts a count as the increment by which to increase (default 1)
+    - accepts a count as the increment by which to increase the version (default 1)
 - Npm Install
     - shortcut to run `npm i` from within a `package.json` file
     - runs the command from the current file's directory
@@ -18,7 +18,7 @@
     - quickly add a log/print statement below the current line for the selected text or the current word under the cursor
     - configurable for different languages based on file type
         - can configure a mapping to point different file types to the desired language (e.g jsx -> js)
-    - supports configuring print statements of different log levels within a language [debug|info|warn|error]
+    - supports configuring print statements for different log levels within a language [debug|info|warn|error]
 
 # Installation
 
@@ -37,6 +37,11 @@ Currently only the variable logging tool has any configuration.
 ```lua
 require("toolbox").setup({
   logger = {
+    language_map = {
+        jsx = "js",
+        ts = "js",
+        tsx = "js",
+    },
     print_statements = {
       lua = {
         info = 'print("%s:", vim.inspect(%s))',

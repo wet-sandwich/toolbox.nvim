@@ -12,3 +12,7 @@ end, { nargs = "?" })
 vim.api.nvim_create_user_command("TBLogVariable", function(args)
 	require("logger").log_variable(args.args)
 end, { nargs = "?" })
+
+vim.api.nvim_create_user_command("TBJson", function(args)
+	require("json").json(args.args)
+end, { nargs = "?" })

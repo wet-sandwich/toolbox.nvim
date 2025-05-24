@@ -6,23 +6,15 @@ local format = function()
 		return
 	end
 
-	local formatted = ""
 	local buf_lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+	local result = vim.system({ "jq", "." }, { stdin = buf_lines }):wait()
 
-	local jobid = vim.fn.jobstart({ "jq", "." }, {
-		on_stdout = function(_, out, _)
-			local str = table.concat(out, "\n")
-			if str ~= "" then
-				formatted = str
-			end
-		end,
-	})
-	vim.fn.chansend(jobid, buf_lines)
-	vim.fn.chanclose(jobid, "stdin")
+	if result.code ~= 0 then
+		vim.notify("Error formatting JSON: " .. result.stderr, vim.log.levels.ERROR)
+		return
+	end
 
-	vim.fn.jobwait({ jobid }, -1)
-
-	local lines = vim.fn.split(formatted, "\n")
+	local lines = vim.fn.split(result.stdout, "\n")
 	vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
 end
 

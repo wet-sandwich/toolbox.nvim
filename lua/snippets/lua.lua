@@ -7,4 +7,5 @@ local rep = require("luasnip.extras").rep
 return {
 	s("req", fmt("local {} = require('{}')", { i(1), rep(1) })),
 	s("todo", fmt("-- TODO {}", { i(0) })),
+	s("module", fmt("local M = {{}}\n\n{}\n\nreturn M", { i(0) })),
 }

@@ -16,3 +16,7 @@ end, { nargs = "?" })
 vim.api.nvim_create_user_command("TBJson", function(args)
 	require("json").json(args.args)
 end, { nargs = "?" })
+
+vim.api.nvim_create_user_command("TBDiffChecker", function()
+	require("diff").diff_checker()
+end, {})

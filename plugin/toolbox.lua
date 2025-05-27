@@ -20,3 +20,7 @@ end, { nargs = "?" })
 vim.api.nvim_create_user_command("TBDiffChecker", function()
 	require("diff").diff_checker()
 end, {})
+
+vim.api.nvim_create_user_command("TBFloaterminal", function()
+	require("floaterminal").toggle_terminal()
+end, {})

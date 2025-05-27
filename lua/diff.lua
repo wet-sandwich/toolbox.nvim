@@ -1,3 +1,4 @@
+-- TODO: add statusline buffer below text windows to display keymaps and other data
 local M = {}
 
 ---@alias name "old" | "new"

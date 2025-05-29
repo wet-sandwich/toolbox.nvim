@@ -26,9 +26,9 @@
     - opens two floating windows to compare text with
     - can toggle diff mode on/off to paste or edit text
     - avoid sharing sensitive data with sketchy websites
-- Floaterminal
+- Floaterminal*
     - open a floating window with persistent terminal for running cli commands
-    - shamelessly taken from TJ
+    - *shamelessly taken from TJ
 
 # Installation
 
@@ -72,6 +72,9 @@ require("toolbox").setup({
 :TBIncSemver
 :TBNpmInstall
 :TBLogVariable
+:TBJson
+:TBDiffChecker
+:TBFloaterminal
 ```
 
 Commands can be called directly with the appropriate arguments or used to create keymaps in your config.

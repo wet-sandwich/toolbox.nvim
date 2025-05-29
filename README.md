@@ -4,7 +4,7 @@
 >
 > -- <cite>Emmert Wolf</cite>
 
-# Features
+# Tools
 
 - Semantic Version Incrementer
     - searches the current line for a semantic version and quickly increases the major, minor, or patch version
@@ -19,6 +19,16 @@
     - configurable for different languages based on file type
         - can configure a mapping to point different file types to the desired language (e.g jsx -> js)
     - supports configuring print statements for different log levels within a language [debug|info|warn|error]
+- JSON Formatter
+    - format, parse, or stringify JSON
+    - supports character/line visual selection, defaults to entire buffer when not in visual mode
+- Diff Checker
+    - opens two floating windows to compare text with
+    - can toggle diff mode on/off to paste or edit text
+    - avoid sharing sensitive data with sketchy websites
+- Floaterminal
+    - open a floating window with persistent terminal for running cli commands
+    - shamelessly taken from TJ
 
 # Installation
 
@@ -78,4 +88,13 @@ vim.keymap.set({"n", "v"}, "<leader>li", "<cmd>TBLogVariable info<cr>", { desc =
 vim.keymap.set({"n", "v"}, "<leader>ld", "<cmd>TBLogVariable debug<cr>", { desc = "[L]og variable [D]ebug" })
 vim.keymap.set({"n", "v"}, "<leader>lw", "<cmd>TBLogVariable warn<cr>", { desc = "[L]og variable [W]arn" })
 vim.keymap.set({"n", "v"}, "<leader>le", "<cmd>TBLogVariable error<cr>", { desc = "[L]og variable [E]rror" })
+
+vim.keymap.set({ "n", "v" }, "<leader>jf", "<cmd>TBJson format<cr>", { desc = "[J]SON [F]ormat" })
+vim.keymap.set({ "n", "v" }, "<leader>jp", "<cmd>TBJson parse<cr>", { desc = "[J]SON [P]arse" })
+vim.keymap.set({ "n", "v" }, "<leader>js", "<cmd>TBJson stringify<cr>", { desc = "[J]SON [S]tringify" })
+
+vim.keymap.set("n", "<leader>dc", "<cmd>TBDiffChecker<cr>", { desc = "Open [D]iff [C]hecker" })
+
+vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
+vim.keymap.set({ "n", "t" }, "<leader>te", "<cmd>TBFloaterminal<cr>", { desc = "[T]oggle t[E]rminal" })
 ```

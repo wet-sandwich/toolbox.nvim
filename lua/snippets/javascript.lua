@@ -1,18 +1,34 @@
 local ls = require("luasnip")
 local s = ls.snippet
 local t = ls.text_node
-local f = ls.function_node
 local i = ls.insert_node
+local c = ls.choice_node
 local fmt = require("luasnip.extras.fmt").fmt
-local rep = require("luasnip.extras").rep
-
-local same = function(index)
-	return f(function(arg)
-		return arg[1]
-	end, index)
-end
+-- local rep = require("luasnip.extras").rep
 
 return {
-	-- TODO figure out why the function node input doesn't update until after input is complete
-	s("log", fmt([[console.log("{}", {})]], { i(1), same(1) })),
+	s(
+		"log",
+		fmt([[console.{}(`{}`{})]], {
+			c(1, { t("log"), t("debug"), t("warn"), t("error") }),
+			i(2),
+			c(3, { t(""), fmt(", {}", i(1)) }),
+		})
+	),
+	s(
+		"try",
+		fmt(
+			[[
+    try {{
+      {}
+    }} catch (error) {{
+      console.error(`{}`, error)
+    }}
+    ]],
+			{
+				i(2),
+				i(1),
+			}
+		)
+	),
 }

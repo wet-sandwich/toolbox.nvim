@@ -24,3 +24,7 @@ end, {})
 vim.api.nvim_create_user_command("TBFloaterminal", function()
 	require("floaterminal").toggle_terminal()
 end, {})
+
+vim.api.nvim_create_user_command("TBNpmScripts", function()
+	require("npm").run_script()
+end, {})

@@ -52,9 +52,9 @@ Currently only the variable logging tool has any configuration.
 require("toolbox").setup({
   logger = {
     language_map = {
-        jsx = "js",
-        ts = "js",
-        tsx = "js",
+      javascriptreact = "javascript",
+      typescript = "javascript",
+      typescriptreact = "javascript",
     },
     print_statements = {
       lua = {

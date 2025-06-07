@@ -6,20 +6,27 @@ local M = {}
 --- @param level string
 ---@return string?
 local function get_print_cmd(level)
-	local ft = vim.fn.expand("%:e")
-	ft = config.language_map[ft] or ft
+	local buf = vim.api.nvim_get_current_buf()
+	local ft = vim.filetype.match({ buf = buf })
 
+	ft = config.language_map[ft] or ft
 	local cmd = config.print_statements[ft]
+
 	if cmd == nil then
 		local msg = string.format("No print statement found for filetype %s", ft)
+
 		vim.notify(msg, vim.log.levels.ERROR)
+
 		return nil
 	end
 
 	cmd = cmd[level]
+
 	if cmd == nil then
 		local msg = string.format("No print statement found for filetype %s with log level %s", ft, level)
+
 		vim.notify(msg, vim.log.levels.ERROR)
+
 		return nil
 	end
 

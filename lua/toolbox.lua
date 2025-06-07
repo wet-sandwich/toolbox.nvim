@@ -3,12 +3,12 @@ local M = {}
 local defaults = {
 	logger = {
 		language_map = {
-			jsx = "js",
-			ts = "js",
-			tsx = "js",
+			javascriptreact = "javascript",
+			typescript = "javascript",
+			typescriptreact = "javascript",
 		},
 		print_statements = {
-			js = {
+			javascript = {
 				debug = 'console.debug("%s:", %s)',
 				info = 'console.log("%s:", %s)',
 				warn = 'console.warn("Warning! %s:", %s)',

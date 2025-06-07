@@ -79,6 +79,7 @@ require("toolbox").setup({
 :TBJson
 :TBDiffChecker
 :TBFloaterminal
+:TBNpmScripts
 ```
 
 Commands can be called directly with the appropriate arguments or used to create keymaps in your config.

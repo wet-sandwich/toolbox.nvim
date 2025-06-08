@@ -1,6 +1,8 @@
 -- TODO: add statusline buffer below text windows to display keymaps and other data
 local M = {}
 
+local diffgroup = "toolbox.diff"
+
 ---@alias name "old" | "new"
 
 ---@class Diff.Buffers
@@ -40,6 +42,14 @@ local get_bufs_or_create = function()
 	return state.bufs.old, state.bufs.new
 end
 
+---Close all open diff windows
+local close = function()
+	pcall(vim.api.nvim_win_close, state.wins.old, true)
+	pcall(vim.api.nvim_win_close, state.wins.new, true)
+	vim.api.nvim_clear_autocmds({ group = diffgroup })
+	state.wins = {}
+end
+
 ---Create windows for the diff text buffers, save window IDs to state
 ---@param buf_old integer: The buffer ID of the old text buffer
 ---@param buf_new integer: The buffer ID of the new text buffer
@@ -67,6 +77,14 @@ local create_windows = function(buf_old, buf_new)
 	opts.title = "New"
 	opts.anchor = "NW"
 	local win_new = vim.api.nvim_open_win(buf_new, true, opts)
+
+	local diffg = vim.api.nvim_create_augroup(diffgroup, {})
+	vim.api.nvim_create_autocmd({ "WinClosed" }, {
+		group = diffg,
+		callback = function()
+			close()
+		end,
+	})
 
 	state.wins = {
 		old = win_old,
@@ -106,13 +124,6 @@ local toggle_diff = function()
 	set_win()
 end
 
----Close all open diff windows
-local close = function()
-	pcall(vim.api.nvim_win_close, state.wins.old, true)
-	pcall(vim.api.nvim_win_close, state.wins.new, true)
-	state.wins = {}
-end
-
 M.diff_checker = function()
 	if next(state.wins) ~= nil then
 		close()
@@ -130,6 +141,9 @@ M.diff_checker = function()
 	-- Set keymaps for old text buffer
 	vim.keymap.set("n", "q", close, { buffer = buf_old })
 	vim.keymap.set("n", "<C-s>", toggle_diff, { buffer = buf_old })
+	vim.keymap.set("n", "<C-h>", function()
+		set_win("new")
+	end, { buffer = buf_old })
 	vim.keymap.set("n", "<C-l>", function()
 		set_win("new")
 	end, { buffer = buf_old })
@@ -138,6 +152,9 @@ M.diff_checker = function()
 	vim.keymap.set("n", "q", close, { buffer = buf_new })
 	vim.keymap.set("n", "<C-s>", toggle_diff, { buffer = buf_new })
 	vim.keymap.set("n", "<C-h>", function()
+		set_win("old")
+	end, { buffer = buf_new })
+	vim.keymap.set("n", "<C-l>", function()
 		set_win("old")
 	end, { buffer = buf_new })
 

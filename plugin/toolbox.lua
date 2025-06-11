@@ -9,6 +9,10 @@ vim.api.nvim_create_user_command("TBNpmInstall", function(args)
 	require("npm").npm_i(args.args)
 end, { nargs = "?" })
 
+vim.api.nvim_create_user_command("TBNpmRun", function()
+	require("npm").run_script()
+end, {})
+
 vim.api.nvim_create_user_command("TBLogVariable", function(args)
 	require("logger").log_variable(args.args)
 end, { nargs = "?" })
@@ -23,8 +27,4 @@ end, {})
 
 vim.api.nvim_create_user_command("TBFloaterminal", function()
 	require("floaterminal").toggle_terminal()
-end, {})
-
-vim.api.nvim_create_user_command("TBNpmScripts", function()
-	require("npm").run_script()
 end, {})

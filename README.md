@@ -76,11 +76,11 @@ require("toolbox").setup({
 ```vim
 :TBIncSemver
 :TBNpmInstall
+:TBNpmRun
 :TBLogVariable
 :TBJson
 :TBDiffChecker
 :TBFloaterminal
-:TBNpmScripts
 ```
 
 Commands can be called directly with the appropriate arguments or used to create keymaps in your config.
@@ -92,6 +92,7 @@ vim.keymap.set("n", "<C-M-p>", "<cmd>TBIncSemver patch<cr>", { desc = "Increment
 
 vim.keymap.set("n", "<leader>ni", "<cmd>TBNpmInstall all<cr>", { desc = "Run [N]pm [I]nstall" })
 vim.keymap.set("n", "<leader>np", "<cmd>TBNpmInstall package<cr>", { desc = "Run [N]pm install [P]ackage" })
+vim.keymap.set("n", "<leader>nr", "<cmd>TBNpmRun<cr>", { desc = "[N]pm [R]un script" })
 
 vim.keymap.set({"n", "v"}, "<leader>li", "<cmd>TBLogVariable info<cr>", { desc = "[L]og variable [I]nfo" })
 vim.keymap.set({"n", "v"}, "<leader>ld", "<cmd>TBLogVariable debug<cr>", { desc = "[L]og variable [D]ebug" })

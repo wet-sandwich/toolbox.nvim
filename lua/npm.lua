@@ -12,8 +12,20 @@ local cleanup_string = function(str)
 	return str:gsub("\\", ""):match('^"(.*)"$')
 end
 
+---@return string?
+local function get_current_path()
+	local file_name = vim.fn.expand("%:t")
+	local file_path = vim.fn.expand("%:p:h")
+	if file_name ~= "package.json" then
+		vim.notify("Must be inside a package.json file", vim.log.levels.ERROR)
+		return nil
+	end
+	return file_path
+end
+
 ---@param cmd string: the command to be ran in the terminal
-local run_in_split_term = function(cmd)
+---@param path? string: the path to run the command from
+local run_in_split_term = function(cmd, path)
 	vim.cmd("vsplit")
 
 	local win = vim.api.nvim_get_current_win()
@@ -23,15 +35,14 @@ local run_in_split_term = function(cmd)
 	vim.api.nvim_set_current_win(win)
 
 	vim.cmd.term()
+	if path ~= nil then
+		vim.api.nvim_chan_send(vim.bo.channel, "cd " .. path .. "\r")
+	end
 	vim.api.nvim_chan_send(vim.bo.channel, cmd .. "\r")
 end
 
 M.run_script = function()
-	local ft = vim.fn.expand("%:e")
-	if ft ~= "json" then
-		vim.notify("Must be in a JSON file", vim.log.levels.ERROR)
-		return
-	end
+	local path = get_current_path()
 
 	local scripts = {}
 	local query = vim.treesitter.query.parse(
@@ -82,24 +93,12 @@ M.run_script = function()
 				actions.select_default:replace(function()
 					actions.close(prompt_bufnr)
 					local selection = action_state.get_selected_entry()
-					run_in_split_term(selection.value)
-					-- vim.cmd(":TBFloaterminal " .. selection.value)
+					run_in_split_term(selection.value, path)
 				end)
 				return true
 			end,
 		})
 		:find()
-end
-
----@return string?
-local function get_current_path()
-	local file_name = vim.fn.expand("%:t")
-	local file_path = vim.fn.expand("%:p:h")
-	if file_name ~= "package.json" then
-		vim.notify("Must be inside a package.json file", vim.log.levels.ERROR)
-		return nil
-	end
-	return file_path
 end
 
 ---@enum

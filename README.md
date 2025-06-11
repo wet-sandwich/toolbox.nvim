@@ -1,19 +1,20 @@
-# toolbox.nvim
+# 🧰 toolbox.nvim
 
 > "A man is only as good as his tools."
 >
 > -- <cite>Emmert Wolf</cite>
 
-# Tools
+# 🛠️ Tools
 
 - Semantic Version Incrementer
     - searches the current line for a semantic version and quickly increases the major, minor, or patch version
     - automatically resets the lower versions as needed
     - accepts a count as the increment by which to increase the version (default 1)
-- Npm Install
+- Npm Install/Run
     - shortcut to run `npm i` from within a `package.json` file
     - runs the command from the current file's directory
     - has a `package` mode that will prompt the user for a space-separated list of packages
+    - adds a telescope picker to choose a script to run in a split terminal
 - Multi-Language Variable Logger
     - quickly add a log/print statement below the current line for the selected text or the current word under the cursor
     - configurable for different languages based on file type

@@ -1,4 +1,3 @@
--- TODO: add statusline buffer below text windows to display keymaps and other data
 local M = {}
 
 local diffgroup = "toolbox.diff"
@@ -124,6 +123,11 @@ local toggle_diff = function()
 	set_win()
 end
 
+local clear_bufs = function()
+	vim.api.nvim_buf_set_lines(state.bufs.old, 0, -1, false, {})
+	vim.api.nvim_buf_set_lines(state.bufs.new, 0, -1, false, {})
+end
+
 M.diff_checker = function()
 	if next(state.wins) ~= nil then
 		close()
@@ -139,7 +143,8 @@ M.diff_checker = function()
 	end
 
 	-- Set keymaps for old text buffer
-	vim.keymap.set("n", "q", close, { buffer = buf_old })
+	vim.keymap.set("n", "<C-c>", close, { buffer = buf_old })
+	vim.keymap.set("n", "<C-k>", clear_bufs, { buffer = buf_old })
 	vim.keymap.set("n", "<C-s>", toggle_diff, { buffer = buf_old })
 	vim.keymap.set("n", "<C-h>", function()
 		set_win("new")
@@ -149,7 +154,8 @@ M.diff_checker = function()
 	end, { buffer = buf_old })
 
 	-- Set keymaps for new text buffer
-	vim.keymap.set("n", "q", close, { buffer = buf_new })
+	vim.keymap.set("n", "<C-c>", close, { buffer = buf_new })
+	vim.keymap.set("n", "<C-k>", clear_bufs, { buffer = buf_new })
 	vim.keymap.set("n", "<C-s>", toggle_diff, { buffer = buf_new })
 	vim.keymap.set("n", "<C-h>", function()
 		set_win("old")
